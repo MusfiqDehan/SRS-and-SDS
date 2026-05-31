@@ -56,6 +56,11 @@ async function seedContent(client) {
 
     const sections = content[slug] || [];
     for (const section of sections) {
+      // Normalise relative image paths (`images/x.png`) to absolute paths
+      // served from the frontend `public/` directory (`/images/x.png`).
+      const normalizedContent = section.content
+        .replace(/src="images\//g, 'src="/images/')
+        .replace(/src='images\//g, "src='/images/");
       await client.query(
         `INSERT INTO sections (document_id, slug, title, content, order_index, is_published)
          VALUES ($1, $2, $3, $4, $5, TRUE)
@@ -64,7 +69,7 @@ async function seedContent(client) {
                content = EXCLUDED.content,
                order_index = EXCLUDED.order_index,
                updated_at = NOW()`,
-        [documentId, section.slug, section.title, section.content, section.order_index]
+        [documentId, section.slug, section.title, normalizedContent, section.order_index]
       );
     }
   }
