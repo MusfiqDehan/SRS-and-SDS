@@ -5,6 +5,7 @@ export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 const TOKEN_KEY = 'srs_sds_token';
+const AUTH_SCHEME = 'Bearer';
 
 export function getToken() {
   if (typeof window === 'undefined') return null;
@@ -22,8 +23,7 @@ export async function apiFetch(path, { method = 'GET', body, auth = false, heade
   if (body !== undefined) finalHeaders['Content-Type'] = 'application/json';
   if (auth) {
     const token = getToken();
-    const scheme = 'Bea' + 'rer ';
-    if (token) finalHeaders.Authorization = scheme + token;
+    if (token) finalHeaders.Authorization = `${AUTH_SCHEME} ${token}`;
   }
 
   let res;
