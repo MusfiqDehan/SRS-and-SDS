@@ -1,0 +1,16 @@
+# Production stack for the frontend (Next.js standalone server).
+# Usage: docker compose -f docker-compose.prod.yml --env-file ../.env.prod up --build -d
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    container_name: srs_sds_frontend_prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"

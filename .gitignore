@@ -1,0 +1,16 @@
+# Files that should never be committed
+node_modules/
+
+# Build artifacts
+frontend/.next/
+frontend/out/
+backend/dist/
+
+# Local secrets / runtime env overrides
+.env
+**/.env
+.env.*.local
+
+# Logs & OS files
+*.log
+.DS_Store
